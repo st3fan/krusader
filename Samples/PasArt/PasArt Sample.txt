@@ -1,0 +1,648 @@
+I have just finished porting - well recoding really - one of the "games" from Creative Computing.  The game is PASART, and it draws quite nice patterns generated from Pascal's Triangle (see [url]http://en.wikipedia.org/wiki/Pascal's_triangle[/url]).  The idea is nice, and there is really a very wide range of patterns you can easily produce (I chose this one for my kid's benefit), but the original code totally ignores the inherent symmetry in the construction, and as a result is about 7 times as long as necessary!  :-)
+
+Here is the assembled code for anyone who just wants to try it out:
+[code]
+0300: 20 26 05 A9 00 85 00 A9 10 85 01 20 42 03 20 D3 
+0310: 03 20 83 04 20 2B 05 C9 1B D0 E5 60 20 3F 53 57 
+0320: 4F 52 20 3F 53 4E 4D 55 4C 4F 43 20 3F 4F 4C 55 
+0330: 44 4F 4D 20 3F 29 33 2C 32 2C 31 28 20 45 4C 59 
+0340: 54 53 A2 06 BD 1B 03 20 EF FF CA D0 F7 A5 02 20 
+0350: A7 03 C9 03 30 EC 85 02 85 0B A2 09 BD 21 03 20 
+0360: EF FF CA D0 F7 A5 03 20 A7 03 C9 03 30 EC C9 28 
+0370: 10 E8 85 03 85 0C A2 08 BD 2A 03 20 EF FF CA D0 
+0380: F7 A5 05 20 A7 03 F0 EE 85 05 A2 0F BD 32 03 20 
+0390: EF FF CA D0 F7 E6 04 A5 04 20 A7 03 F0 EC C9 04 
+03A0: 10 E8 85 04 C6 04 60 85 0D A2 00 86 06 86 07 86 
+03B0: 08 20 2B 05 C9 1B D0 05 68 68 68 68 60 20 EF FF 
+03C0: C9 0D F0 05 95 06 E8 D0 E8 8A F0 04 20 F5 04 60 
+03D0: A5 0D 60 A2 01 A5 04 F0 16 C9 01 D0 04 C6 0B D0 
+03E0: 0E A5 02 4A 69 00 85 0B A5 03 4A 69 00 85 0C A0 
+03F0: 01 A9 00 86 09 84 0A CA 20 A4 04 85 08 E8 88 20 
+0400: A4 04 C8 18 65 08 20 62 04 48 20 CF 04 68 A2 00 
+0410: 81 06 A6 04 F0 3D CA F0 22 48 A6 09 20 79 04 20 
+0420: CF 04 68 48 A2 00 81 06 A6 09 A4 0A 20 6F 04 20 
+0430: CF 04 68 48 A2 00 81 06 38 B0 08 48 A5 02 38 E5 
+0440: 09 85 0C A6 09 20 6F 04 20 79 04 20 CF 04 68 A2 
+0450: 00 81 06 A6 09 A4 0A C8 C4 0C D0 95 E8 E4 0B D0 
+0460: 8E 60 38 E5 05 F0 07 C5 05 10 F7 18 65 05 60 48 
+0470: A5 02 38 E5 09 AA CA 68 60 48 A5 03 38 E5 0A A8 
+0480: 88 68 60 A2 00 A0 00 20 26 05 20 A4 04 0A D0 04 
+0490: A9 20 D0 02 A9 2A 20 EF FF C8 C4 03 D0 EC E8 E4 
+04A0: 02 D0 E2 60 8A F0 25 98 F0 22 A5 04 F0 10 8A 38 
+04B0: E5 02 C9 FF F0 16 98 38 E5 03 C9 FF F0 0E 20 CF 
+04C0: 04 86 0D A2 00 A1 06 A6 0D 18 90 02 A9 01 60 8A 
+04D0: 48 A5 01 85 07 A5 00 85 06 E0 00 F0 0C 18 65 03 
+04E0: 85 06 90 02 E6 07 CA D0 F5 98 65 06 85 06 90 02 
+04F0: E6 07 68 AA 60 A5 06 20 18 05 C9 FF F0 20 48 A5 
+0500: 07 20 18 05 C9 FF D0 02 68 60 85 0D 68 85 08 0A 
+0510: 0A 18 65 08 0A 65 0D 60 49 30 C9 0A 90 02 A9 FF 
+0520: 60 A9 20 4C EF FF A9 0D 4C EF FF AD 11 D0 10 FB 
+0530: AD 10 D0 29 7F 60
+[/code]
+
+To run, type 300R from the Woz monitor.  You can specify the number of rows (greater than 2), columns (from 3 to 39), and style and modulo parameters.  Modulo means all values that equal 0 to that modulus are printed as spaces, others are printed as "*".  Style is either 1 - for a single triangle, 2 - for a pair of triangles starting from opposite corners, or 3 - for 4 triangles, one from each corner.  Hit <Return> to restart, or <Escape> to finish.
+
+Here are some sample runs to illustrate:
+
+[code]
+\
+F000R
+
+F000: A9
+KRUSADER 1.2 BY KEN WESSEN
+? A
+0300-02FF
+MAIN   025 0300
+INPUTS 042 0342
+INPUT  073 03A7
+CALC   08E 03D3
+AMODA  0DD 0462
+X2RMX  0E7 046F
+Y2CMY  0F2 0479
+DRAW   0FD 0483
+GETVAL 110 04A4
+GETADR 12D 04CF
+BYT2D  149 04F5
+OUTSP  168 0521
+CRLF   16C 0526
+GETCH  170 052B-0535
+? R MAIN
+
+ROWS? 16
+COLUMNS? 16
+MODULO? 2
+STYLE (1,2,3)? 1
+
+****************
+* * * * * * * * 
+**  **  **  **  
+*   *   *   *   
+****    ****    
+* *     * *     
+**      **      
+*       *       
+********        
+* * * *         
+**  **          
+*   *           
+****            
+* *             
+**              
+*               <RET>
+ROWS? 24
+COLUMNS? 24
+MODULO? 2
+STYLE (1,2,3)? 2
+
+************************
+* * * * * * * * * * * **
+**  **  **  **  **  ** *
+*   *   *   *   *   ****
+****    ****    ****   *
+* *     * *     * **  **
+**      **      ** * * *
+*       *       ********
+********               *
+* * * *               **
+**  **               * *
+*   *               ****
+****               *   *
+* *               **  **
+**               * * * *
+*               ********
+********       *       *
+* * * **      **      **
+**  ** *     * *     * *
+*   ****    ****    ****
+****   *   *   *   *   *
+* **  **  **  **  **  **
+** * * * * * * * * * * *
+************************<RET>
+ROWS? 24
+COLUMNS? 24
+MODULO? 3
+STYLE (1,2,3)? 2
+
+************************
+** ** ** ** ** ** ** ***
+*  *  *  *  *  *  *  ***
+******   ******   ***  *
+** **    ** **    *** **
+*  *     *  *     ******
+***      ***           *
+**       **           **
+*        *           ***
+***************     *  *
+** ** ** ** ***    ** **
+*  *  *  *  ***   ******
+******   ***  *  *  *  *
+** **    *** ** ** ** **
+*  *     ***************
+***           *        *
+**           **       **
+*           ***      ***
+******     *  *     *  *
+** ***    ** **    ** **
+*  ***   ******   ******
+***  *  *  *  *  *  *  *
+*** ** ** ** ** ** ** **
+************************<RET>
+ROWS? 24
+COLUMNS? 24
+MODULO? 3
+STYLE (1,2,3)? 3
+
+************************
+** ** ** **  ** ** ** **
+*  *  *  *    *  *  *  *
+******   ******   ******
+** **    **  **    ** **
+*  *     *    *     *  *
+***      ******      ***
+**       **  **       **
+*        *    *        *
+************************
+** ** ** **  ** ** ** **
+*  *  *  *    *  *  *  *
+*  *  *  *    *  *  *  *
+** ** ** **  ** ** ** **
+************************
+*        *    *        *
+**       **  **       **
+***      ******      ***
+*  *     *    *     *  *
+** **    **  **    ** **
+******   ******   ******
+*  *  *  *    *  *  *  *
+** ** ** **  ** ** ** **
+************************<RET>
+ROWS? 24
+COLUMNS? 24
+MODULO? 2
+STYLE (1,2,3)? 3
+
+************************
+* * * * * *  * * * * * *
+**  **  **    **  **  **
+*   *   *      *   *   *
+****    ********    ****
+* *     * *  * *     * *
+**      **    **      **
+*       *      *       *
+********        ********
+* * * *          * * * *
+**  **            **  **
+*   *              *   *
+*   *              *   *
+**  **            **  **
+* * * *          * * * *
+********        ********
+*       *      *       *
+**      **    **      **
+* *     * *  * *     * *
+****    ********    ****
+*   *   *      *   *   *
+**  **  **    **  **  **
+* * * * * *  * * * * * *
+************************<RET>
+ROWS? 24
+COLUMNS? 38
+MODULO? 4
+STYLE (1,2,3)? 3
+
+**************************************
+*** *** *** *** ****** *** *** *** ***
+******  ******  ******  ******  ******
+* * *   * * *   * ** *   * * *   * * *
+************    ******    ************
+*** * * ***     ******     *** * * ***
+**  **  **      **  **      **  **  **
+*   *   *       *    *       *   *   *
+**************************************
+*** *** * * * * ****** * * * * *** ***
+******  **  **  ******  **  **  ******
+* * *   *   *   * ** *   *   *   * * *
+* * *   *   *   * ** *   *   *   * * *
+******  **  **  ******  **  **  ******
+*** *** * * * * ****** * * * * *** ***
+**************************************
+*   *   *       *    *       *   *   *
+**  **  **      **  **      **  **  **
+*** * * ***     ******     *** * * ***
+************    ******    ************
+* * *   * * *   * ** *   * * *   * * *
+******  ******  ******  ******  ******
+*** *** *** *** ****** *** *** *** ***
+**************************************<RET>
+ROWS? 24
+COLUMNS? 39
+MODULO? 2
+STYLE (1,2,3)? 3
+
+***************************************
+* * * * * * * * * * * * * * * * * * * *
+**  **  **  **  **   **  **  **  **  **
+*   *   *   *   *     *   *   *   *   *
+****    ****    *******    ****    ****
+* *     * *     * * * *     * *     * *
+**      **      **   **      **      **
+*       *       *     *       *       *
+********        *******        ********
+* * * *         * * * *         * * * *
+**  **          **   **          **  **
+*   *           *     *           *   *
+*   *           *     *           *   *
+**  **          **   **          **  **
+* * * *         * * * *         * * * *
+********        *******        ********
+*       *       *     *       *       *
+**      **      **   **      **      **
+* *     * *     * * * *     * *     * *
+****    ****    *******    ****    ****
+*   *   *   *   *     *   *   *   *   *
+**  **  **  **  **   **  **  **  **  **
+* * * * * * * * * * * * * * * * * * * *
+***************************************<ESC>
+? 
+[/code]
+
+And finally, here is the source code:  (I will make this available for download from my webpage when I get home tonight.)
+
+[code]
+; Constants
+
+BS      .= $08          ; backspace
+SP      .= $20          ; space
+CR      .= $0D          ; carriage return
+LF      .= $0A          ; line feed
+ESC     .= $1B          ; escape
+INMASK  .= $7F
+FAIL    .= $FF
+
+CHAR    .= '*'          ; output character
+        
+; Apple 1 I/O values
+
+OUTCH   .= $FFEF                ; Apple 1 Echo
+PRHEX   .= $FFE5                ; Apple 1 Echo
+OUTHEX  .= $FFDC                ; Apple 1 Print Hex Byte Routine
+KBD     .= $D010                ; Apple 1 Keyboard character read.
+KBDRDY  .= $D011                ; Apple 1 Keyboard data waiting when negative.
+        
+; Zero page storage     
+ALO     .= $00          ; Address of the data array
+AHI     .= $01
+SIZEX   .= $02          ; use a SIZEX rows by SIZEY columns display     
+SIZEY   .= $03
+STYLE   .= $04          ; store 0, 1 or 2 for 1, 2 or 4 triangles
+MOD     .= $05
+TEMPLO  .= $06          ; Address of particular element
+TEMPHI  .= $07
+CURVAL  .= $08
+SAVX    .= $09          ; Store X and Y values here
+SAVY    .= $0A
+TEMPX   .= $0B          ; modified sizes stored here when necessary
+TEMPY   .= $0C
+SCRTCH  .= $0D
+INBUF   .= TEMPLO
+        
+MAIN    .M  $300
+        JSR CRLF
+        LDA #$0
+        STA ALO
+        LDA #$10
+        STA AHI
+        JSR INPUTS
+        JSR CALC
+        JSR DRAW
+        JSR GETCH
+        CMP #ESC
+        BNE MAIN
+        RTS
+        
+ROWSZ   .=   $6
+COLSZ   .=   $9
+MODSZ   .=   $8
+STYLSZ  .=   $F
+ROWS    .B  SP
+        .S  '?SWOR'
+COLS    .B  SP
+        .S  '?SNMULOC'
+MODULE  .B  SP
+        .S  '?OLUDOM'
+STYL    .B  SP
+        .S  '?)3,2,1('
+        .B  SP
+        .S 'ELYTS'
+
+INPUTS  .M
+.ROW    LDX #ROWSZ
+.LOOP1  LDA ROWS-1,X
+        JSR OUTCH
+        DEX
+        BNE .LOOP1
+        LDA SIZEX
+        JSR INPUT
+        CMP #$3
+        BMI .ROW
+        STA SIZEX
+        STA TEMPX
+.COL    LDX #COLSZ
+.LOOP2  LDA COLS-1,X
+        JSR OUTCH
+        DEX
+        BNE .LOOP2
+        LDA SIZEY
+        JSR INPUT
+        CMP #$3
+        BMI .COL
+        CMP #$28
+        BPL .COL
+        STA SIZEY
+        STA TEMPY
+.MOD    LDX #MODSZ
+.LOOP3  LDA MODULE-1,X
+        JSR OUTCH
+        DEX
+        BNE .LOOP3
+        LDA MOD
+        JSR INPUT
+        BEQ .MOD
+        STA MOD
+.STYL   LDX #STYLSZ
+.LOOP4  LDA STYL-1,X
+        JSR OUTCH
+        DEX
+        BNE .LOOP4
+        INC STYLE
+        LDA STYLE
+        JSR INPUT
+        BEQ .STYL
+        CMP #$4
+        BPL .STYL
+        STA STYLE
+        DEC STYLE
+.DONE   RTS
+
+INPUT   .M
+        STA SCRTCH              ; save default value
+        LDX #$0
+        STX INBUF
+        STX INBUF+1
+        STX INBUF+2
+.NEXT   JSR GETCH
+        CMP #ESC
+        BNE .SKIP
+        PLA
+        PLA
+        PLA
+        PLA
+        RTS
+.SKIP   JSR OUTCH
+        CMP #CR
+        BEQ .CVT
+        STA INBUF,X
+        INX
+        BNE .NEXT
+.CVT    TXA
+        BEQ .SAME
+        JSR BYT2D
+        RTS
+.SAME   LDA SCRTCH
+        RTS
+        
+CALC    .M              ; Loop over all rows and columns to calculate the data array
+        LDX #$1
+        LDA STYLE
+        BEQ .LOOPX
+        CMP #$1
+        BNE .SKIP
+        DEC TEMPX
+        BNE .LOOPX
+.SKIP   LDA SIZEX       ; half the sizes for this style
+        LSR
+        ADC #$0
+        STA TEMPX
+        LDA SIZEY
+        LSR
+        ADC #$0
+        STA TEMPY
+.LOOPX  LDY #$1
+.LOOPY  LDA #$0
+        STX SAVX
+        STY SAVY
+        DEX
+        JSR GETVAL      ; get address and value for a(i-1,j)
+        STA CURVAL      ; store the value
+        INX
+        DEY
+        JSR GETVAL      ; get address and value for a(i,j-1)
+        INY
+        CLC
+        ADC CURVAL      ; do the sum
+        JSR AMODA       ; do the modulus
+        PHA             ; and save the result
+        JSR GETADR      ; get address for a(i,j)
+        PLA             ; retrieve the result
+        LDX #$0
+        STA (TEMPLO,X)  ; save to the data array        
+        LDX STYLE
+        BEQ .0
+        DEX
+        BEQ .1
+        PHA
+        LDX SAVX        ; 4 triangles .= > 3 copies
+        JSR Y2CMY
+        JSR GETADR
+        PLA
+        PHA
+        LDX #$0
+        STA (TEMPLO,X)
+        LDX SAVX
+        LDY SAVY
+        JSR X2RMX
+        JSR GETADR
+        PLA
+        PHA
+        LDX #$0
+        STA (TEMPLO,X)
+        SEC
+        BCS .COPY       
+.1      PHA
+        LDA SIZEX       ; 2 triangles, so copy value and adjust limit
+        SEC             ; range of Y is from 0 to SIZEX - X
+        SBC SAVX
+        STA TEMPY
+.COPY   LDX SAVX        ; restore X
+        JSR X2RMX
+        JSR Y2CMY
+        JSR GETADR
+        PLA
+        LDX #$0
+        STA (TEMPLO,X)  ; save to the data array
+.0      LDX SAVX        ; restore X
+        LDY SAVY        ; restore Y
+        INY
+        CPY TEMPY
+        BNE .LOOPY
+        INX
+        CPX TEMPX
+        BNE .LOOPX
+.DONE   RTS
+
+AMODA   .M                ; A -> A MOD MOD
+        SEC
+        SBC MOD
+        BEQ .DONE
+        CMP MOD
+        BPL AMODA
+        CLC
+        ADC MOD
+.DONE   RTS
+        
+X2RMX   .M              ; input X, return X .=  SIZEX - X - 1
+                        ; preserve A
+        PHA
+        LDA SIZEX
+        SEC
+        SBC SAVX
+        TAX
+        DEX
+        PLA
+        RTS
+
+Y2CMY   .M              ; input Y, return Y .=  SIZEY - Y - 1
+                        ; preserve A
+        PHA
+        LDA SIZEY
+        SEC
+        SBC SAVY
+        TAY
+        DEY
+        PLA
+        RTS
+        
+DRAW    .M              ; Loop over all rows and columns to calculate the data array
+        LDX #$0
+.LOOPX  LDY #$0
+        JSR CRLF
+.LOOPY  JSR GETVAL      ; get value for a(i,j)
+        ASL
+        BNE .SKIP
+        LDA #SP
+        BNE .PRINT      ; always
+.SKIP   LDA #CHAR
+.PRINT  JSR OUTCH
+        INY
+        CPY SIZEY
+        BNE .LOOPY
+        INX
+        CPX SIZEX
+        BNE .LOOPX
+        RTS
+
+GETVAL  .M              ; if either index is 0, answer is 1
+                        ; also any edge value for combined triangles is 1
+        TXA             ; check X for boundary value
+        BEQ .BNDRY
+        TYA             ; check Y for boundary value
+        BEQ .BNDRY
+        LDA STYLE
+        BEQ .SKIP
+        TXA
+        SEC
+        SBC SIZEX
+        CMP #$FF
+        BEQ .BNDRY      
+        TYA
+        SEC
+        SBC SIZEY
+        CMP #$FF
+        BEQ .BNDRY
+.SKIP   JSR GETADR      ; get address for a(i,j)
+        STX SCRTCH      ; save X
+        LDX #$0
+        LDA (TEMPLO,X)  ; get the value
+        LDX SCRTCH      ; restore X
+        CLC
+        BCC .DONE
+.BNDRY  LDA #$1         ; boundary value
+.DONE   RTS
+        
+
+GETADR  .M              ; Put address of the data entry in TEMPLO,HI
+                        ; Row index is in X, column index is in Y
+        TXA
+        PHA
+        LDA AHI
+        STA TEMPHI
+        LDA ALO
+        STA TEMPLO
+        CPX #$0         ; First calculate I * SIZE
+        BEQ .NEXT
+        CLC
+.LOOP   ADC SIZEY
+        STA TEMPLO
+        BCC .SKIP
+        INC TEMPHI
+.SKIP   DEX
+        BNE .LOOP
+.NEXT   TYA             ; Now add J
+        ADC TEMPLO
+        STA TEMPLO
+        BCC .DONE
+        INC TEMPHI
+.DONE   PLA
+        TAX
+        RTS
+        
+; Utility subroutines
+
+BYT2D   .M              ; convert the ASCII byte (1 or 2 chars) at INBUF to decimal
+                        ; result in A ($FF for fail)
+        LDA INBUF
+        JSR .A2D        
+        CMP #FAIL       ; indicates conversion error            
+        BEQ .ERR
+        PHA
+        LDA INBUF+1
+        JSR .A2D
+        CMP #FAIL
+        BNE .CONT
+        PLA             ; just ignore 2nd character
+        RTS
+.CONT   STA SCRTCH
+        PLA
+        STA CURVAL
+        ASL             ; x 2
+        ASL             ; x 4
+        CLC
+        ADC CURVAL      ; x 5
+        ASL             ; x 10
+        ADC SCRTCH
+        RTS
+.A2D    EOR #$30        ; convert ASCII code in A to a DEC digit
+        CMP #$0A  
+        BCC .VALID  
+.ERR    LDA #FAIL       ; this value can never be from a single digit
+.VALID  RTS
+                
+; I/O subroutines
+
+OUTSP   .M
+        LDA #SP
+        JMP OUTCH
+        
+CRLF    .M              ; Go to a new line.
+        LDA #CR         ; "CR"
+        JMP OUTCH
+
+GETCH   .M              ; Get a character from the keyboard.
+        LDA KBDRDY
+        BPL GETCH
+        LDA KBD
+        AND #INMASK
+        RTS
+[/code]
+
+Ken
